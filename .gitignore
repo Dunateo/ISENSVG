@@ -1,7 +1,7 @@
 .idea
 ISENSVG_BRU.iml
 out
-src/test/
-src\test
+src/test/test.java
+src\test\
 src/main.java
 main.java
