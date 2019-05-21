@@ -1,4 +1,4 @@
-package fr.graphics.isvg;
+package fr.graphics;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -9,7 +9,7 @@ public class Menu extends JMenu {
     public JMenu mMenu;
     private ArrayList<Menu_item> JMIlist;
 
-    public Menu(String buttonText[][], String name){
+    public Menu(String buttonText[], String name){
         mName = name;
         mMenu = new JMenu(mName);
         JMIlist = new ArrayList<Menu_item>();
@@ -22,20 +22,19 @@ public class Menu extends JMenu {
 
     }
 
-    private void createMenuItem(String buttonText[][]){
+    private void createMenuItem(String buttonText[]){
+        int i = 0;
+        while (i< buttonText.length){
 
-        for (int i = 0; i < buttonText[0].length ; i++ ){
-            Menu_item But = new Menu_item(buttonText[0][i]);
-
-            if (i == Integer.parseInt(buttonText[1][0]) ){
+            if (buttonText[i].equals("|") ){
                 mMenu.addSeparator();
-                mMenu.add(But.Item);
-
             }else {
+                Menu_item But = new Menu_item(buttonText[i]);
                 mMenu.add(But.Item);
+                JMIlist.add(But);
             }
-            JMIlist.add(But);
 
+            i++;
         }
 
     }

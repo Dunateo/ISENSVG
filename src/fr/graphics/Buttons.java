@@ -1,4 +1,4 @@
-package fr.graphics.isvg;
+package fr.graphics;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;

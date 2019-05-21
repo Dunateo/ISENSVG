@@ -1,4 +1,4 @@
-package fr.graphics.isvg;
+package fr.graphics;
 
 public class Button_act  {
 }

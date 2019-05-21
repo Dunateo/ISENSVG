@@ -1,4 +1,4 @@
-package fr.graphics.isvg;
+package fr.graphics;
 
 import javax.swing.*;
 import java.awt.*;
@@ -37,6 +37,10 @@ public class Panel extends JPanel {
         mCols = cols;
         mPan = new JPanel();
         mPan.setLayout(new GridLayout(rows,cols));
+    }
+
+    public Panel(){
+        mPan = new JPanel();
     }
 
     private void FillButtonsList(String[][] buttonText){
