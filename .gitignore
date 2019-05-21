@@ -3,4 +3,5 @@ ISENSVG_BRU.iml
 out
 src/test/
 src\test
-src\main_package
+src/main.java
+main.java
