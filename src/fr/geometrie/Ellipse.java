@@ -1,8 +1,8 @@
-package Fenetre;
+package fr.geometrie;
 
 import java.awt.*;
 
-public class Ellipse extends Figure{
+public class Ellipse extends Figure {
     public static final float PI =3.14f;
 
     protected int grandAxe;

@@ -1,4 +1,4 @@
-package Fenetre;
+package fr.geometrie;
 
 class Point {
 

@@ -1,8 +1,5 @@
 package test;
-import fr.graphics.Fenetre;
-import fr.graphics.Menu_bar;
-import fr.graphics.Panel;
-import fr.graphics.Scrool_pan;
+import fr.graphics.*;
 
 
 public class test {
@@ -18,10 +15,12 @@ public class test {
         Panel centerPan = new Panel(1,1);
         Scrool_pan Text = new Scrool_pan("Salut à tous les amis");
         Panel westPan = new Panel();
+        Dessin mDraw = new Dessin();
 
         //ajout des composants
         westPan.add(Text.mPan);
         Main.contentPane.add(westPan.mPan, "West");
+        Main.contentPane.add(mDraw, "East");
         Main.contentPane.add(centerPan.mPan, "Center");
         Main.setJMenuBar(Bar.mBar);
         Main.setVisible(true);
