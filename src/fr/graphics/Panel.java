@@ -69,4 +69,9 @@ public class Panel extends JPanel {
     public int getmCols() {
         return mCols;
     }
+
+    public ArrayList<Buttons> getBlist() {
+        return Blist;
+    }
+
 }

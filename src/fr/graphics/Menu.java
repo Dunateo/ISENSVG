@@ -1,5 +1,7 @@
 package fr.graphics;
 
+import fr.action_listenner.Button_act;
+
 import javax.swing.*;
 import java.util.ArrayList;
 
@@ -14,6 +16,7 @@ public class Menu extends JMenu {
         mMenu = new JMenu(mName);
         JMIlist = new ArrayList<Menu_item>();
         createMenuItem(buttonText);
+        actionEvent();
 
     }
     public Menu(String name){
@@ -36,6 +39,16 @@ public class Menu extends JMenu {
 
             i++;
         }
+
+    }
+
+    public ArrayList<Menu_item> getJMIlist() {
+        return JMIlist;
+    }
+
+    private void actionEvent(){
+
+             Button_act Action = new Button_act(JMIlist);
 
     }
 
