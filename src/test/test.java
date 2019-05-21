@@ -6,7 +6,7 @@ public class test {
     public static void main(String[] args) {
 
         //déclaration des array
-        String Item[][] = {{"Ouvrir","Nouveau","Enregistrer","|","Quitter"}, {"Refresh"}};
+        String Item[][] = {{"Ouvrir","Nouveau","Enregistrer","|","Quitter"}, {"Refresh", "Val"}};
         String nomMenu[] = {"File", "Edition"};
         String contentArea = " ";
         //la fenetre
