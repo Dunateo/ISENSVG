@@ -11,7 +11,6 @@ public class Menu_item extends JMenuItem {
     Menu_item(String name){
         mName = name;
         Item = new JMenuItem(mName);
-        //Item.addActionListener(this);
        Item.setAccelerator(KeyStroke.getKeyStroke(mName.charAt(0), Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), false));
     }
 

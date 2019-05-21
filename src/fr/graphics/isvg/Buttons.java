@@ -11,7 +11,6 @@ public class Buttons extends JButton{
     Buttons(String name){
         this.mString = name;
         this.mButton = new JButton(mString);
-        //this.mButton.addActionListener((ActionListener) this);
 
 
     }
