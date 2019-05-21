@@ -8,11 +8,16 @@ public class Menu_item extends JMenuItem {
     public JMenuItem Item;
     private String mName;
 
-    Menu_item(String name){
+    Menu_item(String name, boolean shortcut){
         mName = name;
         Item = new JMenuItem(mName);
-       Item.setAccelerator(KeyStroke.getKeyStroke(mName.charAt(0), Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), false));
+
+        if (shortcut){
+            Item.setAccelerator(KeyStroke.getKeyStroke(mName.charAt(0), Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), false));
+        }
+
     }
+
 
 
 }

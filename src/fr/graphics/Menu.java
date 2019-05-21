@@ -33,8 +33,15 @@ public class Menu extends JMenu {
 
                 if (buttonText[i].equals("|")) {
                     mMenu.addSeparator();
+
+                } else if (buttonText[i].startsWith("¤")){
+
+                    Menu_item But = new Menu_item(buttonText[i].substring(1),false);
+                    mMenu.add(But.Item);
+                    JMIlist.add(But);
+
                 } else {
-                    Menu_item But = new Menu_item(buttonText[i]);
+                    Menu_item But = new Menu_item(buttonText[i],true);
 
                     mMenu.add(But.Item);
                     JMIlist.add(But);
