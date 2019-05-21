@@ -25,20 +25,23 @@ public class Menu extends JMenu {
 
     }
 
-    private void createMenuItem(String buttonText[]){
+    private void createMenuItem(String[] buttonText){
         int i = 0;
-        while (i< buttonText.length){
 
-            if (buttonText[i].equals("|") ){
-                mMenu.addSeparator();
-            }else {
-                Menu_item But = new Menu_item(buttonText[i]);
-                mMenu.add(But.Item);
-                JMIlist.add(But);
+
+            while (i < buttonText.length) {
+
+                if (buttonText[i].equals("|")) {
+                    mMenu.addSeparator();
+                } else {
+                    Menu_item But = new Menu_item(buttonText[i]);
+
+                    mMenu.add(But.Item);
+                    JMIlist.add(But);
+                }
+
+                i++;
             }
-
-            i++;
-        }
 
     }
 
