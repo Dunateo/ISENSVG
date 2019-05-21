@@ -25,6 +25,10 @@ public class Menu extends JMenu {
 
     }
 
+    /**
+     * create Item Menu chain , | separator, ¤ without shortcut , by default shortcuts are activated
+     * @param buttonText
+     */
     private void createMenuItem(String[] buttonText){
         int i = 0;
 
