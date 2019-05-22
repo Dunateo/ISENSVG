@@ -1,6 +1,7 @@
 package fr.parseur;
 
 import java.awt.*;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import fr.geometrie.*;
@@ -81,25 +82,56 @@ public class Xml_parseur implements ContentHandler{
      */
     public Rectangle recupRect(Attributes arg3)
     {
-        int l,L,ep;
+        int l,L,ep, rx,ry;
         Point pt ;
         String except;
         x=Integer.parseInt(arg3.getValue("x"));
         y=Integer.parseInt(arg3.getValue("y"));
         L=Integer.parseInt(arg3.getValue("height"));   //Valeur en int de l'attribue "..."
         l=Integer.parseInt(arg3.getValue("width"));
-        ep=Integer.parseInt(arg3.getValue("stroke-width"));
-
         except =arg3.getValue("fill");
+        pt = new Point(x,y);
+
+        //check if there is stroke or no
+        if (arg3.getValue("stroke")!= null){
+
+            //decode the color
+            contour =  stringToColor(arg3.getValue("stroke"));
+            ep=Integer.parseInt(arg3.getValue("stroke-width"));
+        }else {
+            contour = new Color(0,0,0,1);
+            ep = 0;
+        }
+        //exception for transparent background
         if (except.equals("none")){
             c = new Color(0,0,0,1);
         }else {
             c= Color.decode(except);
         }
-        contour=Color.decode(arg3.getValue("stroke"));
-        pt = new Point(x,y);
-        Rectangle r = new Rectangle(pt,L,l,c,contour,ep);
-        return r;
+
+        //rounded rect or normal one
+        if (arg3.getValue("rx") == null){
+            ry = Integer.parseInt(arg3.getValue("ry"));
+            rx = ry;
+            Rounded_rectangle r = new Rounded_rectangle(pt,L,l,c,contour,ep,rx,ry);
+            return r;
+        }else if (arg3.getValue("ry") == null){
+            rx = Integer.parseInt(arg3.getValue("rx"));
+            ry = rx;
+            Rounded_rectangle r = new Rounded_rectangle(pt,L,l,c,contour,ep,rx,ry);
+            return r;
+        }else if (arg3.getValue("rx") == null && arg3.getValue("ry") == null){
+
+            Rectangle r = new Rectangle(pt,L,l,c,contour,ep);
+            return r;
+        }else {
+            rx = Integer.parseInt(arg3.getValue("rx"));
+            ry = Integer.parseInt(arg3.getValue("ry"));
+            Rounded_rectangle r = new Rounded_rectangle(pt,L,l,c,contour,ep,rx,ry);
+            return r;
+
+        }
+
     }
 
     /**
@@ -200,4 +232,24 @@ public class Xml_parseur implements ContentHandler{
     public void startDocument() throws SAXException {
 
     }
+//color decode
+    public static Color stringToColor(final String value) {
+
+        if (value == null) {
+            return Color.black;
+        }
+        try {
+            return Color.decode(value);
+        } catch (NumberFormatException nfe) {
+            try {
+                final Field f = Color.class.getField(value);
+                return (Color) f.get(null);
+            } catch (Exception ce) {
+                return Color.black;
+            }
+        }
+    }
+
 }
+
+
