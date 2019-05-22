@@ -1,17 +1,17 @@
 package fr.geometrie;
 
-class Point {
+public class Point {
 
     private int X;
     private int Y;
 
 
-    Point(){
+    public Point(){
         this.X = 0;
         this.Y = 0;
 
     }
-    Point(int x, int y) {
+    public Point(int x, int y) {
         X = x;
         Y = y;
     }

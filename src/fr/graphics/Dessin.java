@@ -38,9 +38,11 @@ public class Dessin extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        Graphics2D g2 =  (Graphics2D) g;
         //display all the figures
         for ( Figure f: list){
-            f.draw(g);
+            //exceptions case
+                f.draw(g2);
         }
 
     }
@@ -144,12 +146,17 @@ public class Dessin extends JPanel {
      */
     public void exportDessin(String name){
         BufferedImage bi = new BufferedImage(this.getSize().width, this.getSize().height, BufferedImage.TYPE_INT_ARGB);
-        Graphics g = bi.createGraphics();
+        Graphics2D g = bi.createGraphics();
         this.paint(g);  //this == JComponent
         g.dispose();
         try{
             ImageIO.write(bi,"png",new File(name));
         }catch (Exception e) {}
+    }
+
+    public void refreshParseur(ArrayList<Figure> list){
+        this.list = list;
+        repaint();
     }
 
 }

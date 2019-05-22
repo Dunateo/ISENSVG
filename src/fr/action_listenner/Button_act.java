@@ -39,6 +39,10 @@ public class Button_act implements ActionListener {
     public void actionPerformed(ActionEvent e){
         String cmd = e.getActionCommand();
         System.out.println("Bouton presse = " + cmd);
+        if( cmd.equals("Refresh")){
+
+
+        }
 
     }
 

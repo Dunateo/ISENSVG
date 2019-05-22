@@ -11,6 +11,10 @@ public class Cercle extends Ellipse{
     Cercle(int axe){
         super(axe,axe);
     }
+    public Cercle(Point p, int Axe, Color couleur, Color colorStroke, int epaisseur){
+        super(p,Axe, Axe,couleur, colorStroke,epaisseur);
+    }
+
     public void setGrandAxe(int grandAxe) {
         this.grandAxe = grandAxe;
         this.petitAxe = grandAxe;

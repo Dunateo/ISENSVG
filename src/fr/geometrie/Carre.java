@@ -12,6 +12,8 @@ public class Carre extends Rectangle {
         super(p,c);
     }
 
+    Carre(Point p, int largeur, Color couleur, Color contour, int epaisseur){ super( p, largeur, largeur, couleur,  contour, epaisseur); }
+
     public void setLongueur(int longueur) {
         this.longueur = longueur;
         this.largeur = longueur;

@@ -3,7 +3,7 @@ package fr.geometrie;
 
 import java.awt.*;
 
-class Rectangle extends Figure{
+public class Rectangle extends Figure{
 
 
     protected int longueur;
@@ -25,6 +25,12 @@ class Rectangle extends Figure{
         this.largeur = largeur;
 
 
+    }
+
+    public Rectangle(Point p, int longueur, int largeur, Color couleur, Color colorStroke, int epaisseur) {
+        super(p, couleur, colorStroke,epaisseur );
+        this.longueur = longueur;
+        this.largeur = largeur;
     }
 
 
@@ -52,15 +58,19 @@ class Rectangle extends Figure{
         this.largeur = largueurBB;
     }
 
-    public void draw(Graphics g){
+    public void draw(Graphics2D g){
         g.setColor(c);
         g.fillRect(origine.getX(),origine.getY(),largeur,longueur);
+        g.setColor(stroke);
+        g.setStroke(new BasicStroke(this.strokeWidth));
+        g.drawRect(origine.getX(),origine.getY(), largeur,longueur);
     }
-    public void drawDragged(Graphics g){
-        g.setColor(c);
+    public void drawDragged(Graphics2D g){
+        g.setColor(stroke);
         g.drawRect(origine.getX(),origine.getY(),largeur,longueur);
 
     }
+
     public String figureName(){
         return "Rectangle " +longueur + ";"+ largeur;
     }
