@@ -148,15 +148,24 @@ public class Xml_parseur implements ContentHandler{
         x=Integer.parseInt(arg3.getValue("cx"));
         y=Integer.parseInt(arg3.getValue("cy"));
         r=Integer.parseInt(arg3.getValue("r"));   //Valeur en int de l'attribue "..."
-        ep=Integer.parseInt(arg3.getValue("stroke-width"));
         except = arg3.getValue("fill");
 
         if (except.equals("none")){
             c = new Color(0,0,0,1);
         }else {
-            c= Color.decode(except);
+            c= stringToColor(except);
         }
-        contour=Color.decode(arg3.getValue("stroke"));
+
+        //check if there is stroke or no
+        if (arg3.getValue("stroke")!= null){
+            //decode the color
+            contour =  stringToColor(arg3.getValue("stroke"));
+            ep=Integer.parseInt(arg3.getValue("stroke-width"));
+        }else {
+            contour = new Color(0,0,0,1);
+            ep = 0;
+        }
+
         pt = new Point(x,y);
         Cercle cercle = new Cercle(pt,r,c,contour,ep);
         return cercle;
