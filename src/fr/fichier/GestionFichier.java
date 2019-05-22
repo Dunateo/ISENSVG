@@ -28,14 +28,14 @@ public class GestionFichier extends test implements ActionListener{
 		// Boite de confirmation
 		public int confirmBox () {
 			
-			int option = JOptionPane.showConfirmDialog(null,"Voulez-vous enregistrer le fichier ?","Séléctionner une option ...",JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.QUESTION_MESSAGE);
+			int option = JOptionPane.showConfirmDialog(null,"Voulez-vous enregistrer le fichier ?","Selectionner une option ...",JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.QUESTION_MESSAGE);
 
 			// 0=yes, 1=no, 2=cancel
 			
 			return option;
 		}
 		
-		// Choix d'un fichier à ouvrir
+		// Choix d'un fichier ï¿½ ouvrir
 		public File choixOpenFichier () throws IOException {
 			JFileChooser dialogue = new JFileChooser(new File("."));
 			File fichier = null;
@@ -48,7 +48,7 @@ public class GestionFichier extends test implements ActionListener{
 		}
 		
 		
-		// Récupération du texte d'un fichier
+		// Rï¿½cupï¿½ration du texte d'un fichier
 		public String textFichier (File fichier) throws IOException {
 			String texte = "";
 			
@@ -73,7 +73,7 @@ public class GestionFichier extends test implements ActionListener{
 		}
 		
 		
-		// Ouvre un fichier XML et l'affiche dans la zone d'édition de code
+		// Ouvre un fichier XML et l'affiche dans la zone d'ï¿½dition de code
 		public void openXMLFile () {
 			try {
 				if(!mCode.getText().equals("")) {
@@ -123,7 +123,7 @@ public class GestionFichier extends test implements ActionListener{
 		}
 		
 		
-		// Choix d'un fichier à sauvegarder
+		// Choix d'un fichier ï¿½ sauvegarder
 		public JFileChooser choixSaveFichier () throws IOException {
 			JFileChooser dialogue = new JFileChooser();
 			int retour = dialogue.showSaveDialog(null);
@@ -164,7 +164,7 @@ public class GestionFichier extends test implements ActionListener{
 		}
 		
 		
-		// Créer nouveau code isvg
+		// Crï¿½er nouveau code isvg
 		public void nouveauFile () {
 			if(!mCode.getText().equals("")) {
 				
