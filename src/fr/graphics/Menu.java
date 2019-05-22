@@ -11,6 +11,7 @@ public class Menu extends JMenu {
     public JMenu mMenu;
     private ArrayList<Menu_item> JMIlist;
 
+
     public Menu(String buttonText[], String name){
         mName = name;
         mMenu = new JMenu(mName);
