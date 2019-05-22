@@ -102,15 +102,19 @@ public class Xml_parseur implements ContentHandler{
             contour = new Color(0,0,0,1);
             ep = 0;
         }
+
         //exception for transparent background
         if (except.equals("none")){
             c = new Color(0,0,0,1);
         }else {
-            c= Color.decode(except);
+            c= stringToColor(except);
         }
 
         //rounded rect or normal one
-        if (arg3.getValue("rx") == null){
+        if (arg3.getValue("rx") == null && arg3.getValue("ry") == null){
+            Rectangle r = new Rectangle(pt,L,l,c,contour,ep);
+            return r;
+        } else if (arg3.getValue("rx") == null){
             ry = Integer.parseInt(arg3.getValue("ry"));
             rx = ry;
             Rounded_rectangle r = new Rounded_rectangle(pt,L,l,c,contour,ep,rx,ry);
@@ -119,10 +123,6 @@ public class Xml_parseur implements ContentHandler{
             rx = Integer.parseInt(arg3.getValue("rx"));
             ry = rx;
             Rounded_rectangle r = new Rounded_rectangle(pt,L,l,c,contour,ep,rx,ry);
-            return r;
-        }else if (arg3.getValue("rx") == null && arg3.getValue("ry") == null){
-
-            Rectangle r = new Rectangle(pt,L,l,c,contour,ep);
             return r;
         }else {
             rx = Integer.parseInt(arg3.getValue("rx"));
