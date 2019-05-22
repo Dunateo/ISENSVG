@@ -5,9 +5,15 @@ import java.awt.*;
 public class Rounded_rectangle extends Rectangle {
     protected  Point axeRadius;
 
+
     public Rounded_rectangle(Point p, int longueur, int largeur, Color couleur, Color colorStroke, int epaisseur, int rx, int ry) {
         super(p, longueur, largeur,couleur, colorStroke, epaisseur );
             axeRadius = new Point(rx,ry);
+    }
+
+    public Rounded_rectangle(Point p, int longueur, int largeur, Color couleur, Color colorStroke, int epaisseur, int rx, int ry, Point translate, int rotate) {
+        super(p, longueur, largeur,couleur, colorStroke, epaisseur, translate, rotate);
+        axeRadius = new Point(rx,ry);
     }
 
     @Override
@@ -17,6 +23,10 @@ public class Rounded_rectangle extends Rectangle {
         g.setColor(stroke);
         g.setStroke(new BasicStroke(this.strokeWidth));
         g.drawRoundRect(origine.getX(),origine.getY(), largeur,longueur,axeRadius.getX(),axeRadius.getY());
+        if (transform ){
+            g.translate(translate.getX(), translate.getY());
+            g.rotate(Math.toRadians(rotate));
+        }
     }
 
 }

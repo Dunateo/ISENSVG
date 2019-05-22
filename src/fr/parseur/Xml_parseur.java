@@ -18,9 +18,10 @@ public class Xml_parseur implements ContentHandler{
     //array list fot figure
     private ArrayList<Figure> list = new ArrayList<Figure>();
     private String ContentT;
-    private boolean stateT = false;
-    private int x,y;
+    private boolean stateT = false, stateG = false ;
+    private int x,y, rotate;
     private Color c,contour;
+    Point translate;
 
 
     @Override
@@ -29,7 +30,6 @@ public class Xml_parseur implements ContentHandler{
         System.out.println(nom);
         if (nom.equals("rect"))
         {
-
             Rectangle f= recupRect(arg3);
             list.add(f);
         }
@@ -44,8 +44,41 @@ public class Xml_parseur implements ContentHandler{
         }else if (nom.equals("isen_magic")){
             Pictures f = recupPict(arg3);
             list.add(f);
+        }else if (nom.equals("g")){
+            stateG = true;
+            recupG(arg3);
         }
 
+
+    }
+
+    /**
+     * Assign the transform parameter to his goal
+     * @param arg3
+     */
+    public void recupG(Attributes arg3){
+
+        if (arg3.getValue("transform") != null){
+            String[] sN,sT;
+            String tmp = arg3.getValue("transform");
+            String number = tmp.replaceAll("[a-z[()]]+","");
+            String text  = tmp.replaceAll("[0-9[()-]]+", "");
+
+            //split the both String
+            sN = number.split(" ");
+            sT = text.split(" ");
+
+            //check the arguments order
+            if (sT[0].equals("translate")){
+                translate = new Point(Integer.parseInt(sN[0]),Integer.parseInt(sN[1]));
+                rotate = Integer.parseInt(sN[2]);
+            }else {
+                translate = new Point(Integer.parseInt(sN[1]),Integer.parseInt(sN[2]));
+                rotate = Integer.parseInt(sN[0]);
+            }
+
+
+        }
 
     }
 
@@ -65,6 +98,7 @@ public class Xml_parseur implements ContentHandler{
         Pictures pict = new Pictures(new Point(x,y), "src/assets/pictures/toulon.png");
         return pict;
     }
+
     /**
      * Text creation
      * @return
@@ -94,7 +128,6 @@ public class Xml_parseur implements ContentHandler{
 
         //check if there is stroke or no
         if (arg3.getValue("stroke")!= null){
-
             //decode the color
             contour =  stringToColor(arg3.getValue("stroke"));
             ep=Integer.parseInt(arg3.getValue("stroke-width"));
@@ -110,24 +143,45 @@ public class Xml_parseur implements ContentHandler{
             c= stringToColor(except);
         }
 
+
         //rounded rect or normal one
         if (arg3.getValue("rx") == null && arg3.getValue("ry") == null){
-            Rectangle r = new Rectangle(pt,L,l,c,contour,ep);
+            Rectangle r;
+            if (stateG){
+                r = new Rectangle(pt,L,l,c,contour,ep,translate,rotate);
+            }else {
+                r = new Rectangle(pt,L,l,c,contour,ep);
+            }
             return r;
         } else if (arg3.getValue("rx") == null){
             ry = Integer.parseInt(arg3.getValue("ry"));
             rx = ry;
-            Rounded_rectangle r = new Rounded_rectangle(pt,L,l,c,contour,ep,rx,ry);
+            Rounded_rectangle r;
+            if (stateG){
+                r= new Rounded_rectangle(pt,L,l,c,contour,ep,rx,ry, translate, rotate);
+            }else {
+                r= new Rounded_rectangle(pt,L,l,c,contour,ep,rx,ry);
+            }
             return r;
         }else if (arg3.getValue("ry") == null){
             rx = Integer.parseInt(arg3.getValue("rx"));
             ry = rx;
-            Rounded_rectangle r = new Rounded_rectangle(pt,L,l,c,contour,ep,rx,ry);
+            Rounded_rectangle r ;
+            if (stateG){
+                r= new Rounded_rectangle(pt,L,l,c,contour,ep,rx,ry, translate, rotate);
+            }else {
+                r= new Rounded_rectangle(pt,L,l,c,contour,ep,rx,ry);
+            }
             return r;
         }else {
             rx = Integer.parseInt(arg3.getValue("rx"));
             ry = Integer.parseInt(arg3.getValue("ry"));
-            Rounded_rectangle r = new Rounded_rectangle(pt,L,l,c,contour,ep,rx,ry);
+            Rounded_rectangle r;
+            if (stateG){
+                r= new Rounded_rectangle(pt,L,l,c,contour,ep,rx,ry, translate, rotate);
+            }else {
+                r= new Rounded_rectangle(pt,L,l,c,contour,ep,rx,ry);
+            }
             return r;
 
         }
@@ -147,7 +201,7 @@ public class Xml_parseur implements ContentHandler{
         Color c,contour;
         x=Integer.parseInt(arg3.getValue("cx"));
         y=Integer.parseInt(arg3.getValue("cy"));
-        r=Integer.parseInt(arg3.getValue("r"));   //Valeur en int de l'attribue "..."
+        r=Integer.parseInt(arg3.getValue("r"));   //Valeur en int de l'attribue
         except = arg3.getValue("fill");
 
         if (except.equals("none")){
@@ -171,13 +225,14 @@ public class Xml_parseur implements ContentHandler{
         return cercle;
     }
 
+    /**
+     * getter for the array list
+     * @return
+     */
     public ArrayList<Figure> getList() {
         return list;
     }
 
-    private void testExceptions(){
-
-    }
 
     @Override
     public void startPrefixMapping(String arg0, String arg1) throws SAXException {
@@ -203,10 +258,13 @@ public class Xml_parseur implements ContentHandler{
 
     @Override
     public void endElement(String arg0, String arg1, String arg2) throws SAXException {
+        System.out.println("</"+arg2+">" );
         if (arg2.equals("text")){
             Text f = recupText();
             list.add(f);
             stateT = false;
+        }if (arg2.equals("g")){
+            stateG = false;
         }
 
     }
