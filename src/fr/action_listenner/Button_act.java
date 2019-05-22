@@ -3,7 +3,7 @@ package fr.action_listenner;
 import fr.graphics.Buttons;
 import fr.graphics.Menu_item;
 import fr.graphics.Dessin;
-import fr.fichier.OpenExistedFile;
+import fr.fichier.GestionFichiers;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -19,7 +19,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-public class Button_act extends OpenExistedFile implements ActionListener {
+public class Button_act extends GestionFichiers implements ActionListener {
 		
     public Button_act(ArrayList<Buttons> list, ArrayList<Menu_item> Menulist){
 

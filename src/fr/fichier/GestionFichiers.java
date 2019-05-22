@@ -22,7 +22,7 @@ import javax.swing.JTextArea;
 
 import fr.graphics.Fenetre;
 
-public class OpenExistedFile extends test implements ActionListener{
+public class GestionFichiers extends test implements ActionListener{
 	
 		// Boite de confirmation
 		public int confirmBox () {
