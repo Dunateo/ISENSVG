@@ -39,11 +39,13 @@ public class Ellipse extends Figure {
         petitAxe = largueurBB;
     }
     public void draw(Graphics2D g){
+        int x = origine.getX() - grandAxe;
+        int y = origine.getY() - petitAxe;
         g.setColor(c);
-        g.fillOval(origine.getX(),origine.getY(),petitAxe,grandAxe);
+        g.fillOval(x,y,petitAxe,grandAxe);
         g.setColor(stroke);
         g.setStroke(new BasicStroke(strokeWidth));
-        g.drawOval(origine.getX(),origine.getY(),petitAxe,grandAxe);
+        g.drawOval(x,y,petitAxe,grandAxe);
     }
     public void drawDragged(Graphics2D g){
         g.setColor(stroke);
