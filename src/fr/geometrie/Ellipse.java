@@ -19,8 +19,8 @@ public class Ellipse extends Figure {
     }
     Ellipse(Point p, int gAxe, int pAxe, Color couleur, Color colorStroke, int epaisseur) {
         super(p, couleur, colorStroke,epaisseur );
-        this.grandAxe = gAxe;
-        this.petitAxe = pAxe;
+        this.grandAxe = gAxe*2;
+        this.petitAxe = pAxe*2;
     }
 
     Ellipse(int grandAxe, int petitAxe){
@@ -39,8 +39,8 @@ public class Ellipse extends Figure {
         petitAxe = largueurBB;
     }
     public void draw(Graphics2D g){
-        int x = origine.getX() - grandAxe;
-        int y = origine.getY() - petitAxe;
+        int x = origine.getX() - grandAxe/2;
+        int y = origine.getY() - petitAxe/2;
         g.setColor(c);
         g.fillOval(x,y,petitAxe,grandAxe);
         g.setColor(stroke);

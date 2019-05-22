@@ -3,10 +3,9 @@ package fr.parseur;
 import java.awt.*;
 import java.util.ArrayList;
 
-import fr.geometrie.Cercle;
-import fr.geometrie.Figure;
-import fr.geometrie.Rectangle;
+import fr.geometrie.*;
 import fr.geometrie.Point;
+import fr.geometrie.Rectangle;
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.Locator;
@@ -17,7 +16,10 @@ public class Xml_parseur implements ContentHandler{
 
     //array list fot figure
     private ArrayList<Figure> list = new ArrayList<Figure>();
-
+    private String ContentT;
+    private boolean stateT = false;
+    private int x,y;
+    private Color c,contour;
 
 
     @Override
@@ -26,6 +28,7 @@ public class Xml_parseur implements ContentHandler{
         System.out.println(nom);
         if (nom.equals("rect"))
         {
+
             Rectangle f= recupRect(arg3);
             list.add(f);
         }
@@ -33,16 +36,33 @@ public class Xml_parseur implements ContentHandler{
         {
             Cercle f=recupCircle(arg3);
             list.add(f);
+        }else if (nom.equals("text")){
+            stateT =true;
+            recupTextAttri(arg3);
+
+
+        }else {
+            stateT = false;
         }
 
 
 
     }
+    public void recupTextAttri(Attributes arg3){
+        x = Integer.parseInt(arg3.getValue("x"));
+        y=Integer.parseInt(arg3.getValue("y"));
+        c= Color.decode(arg3.getValue("stroke"));
+    }
+
+    public Text recupText() {
+
+        Text text = new Text(new Point(x,y), c,ContentT);
+        return text;
+    }
     public Rectangle recupRect(Attributes arg3)
     {
         int x,y,l,L,ep;
         Point pt ;
-        Color c,contour;
         String except;
         x=Integer.parseInt(arg3.getValue("x"));
         y=Integer.parseInt(arg3.getValue("y"));
@@ -101,6 +121,9 @@ public class Xml_parseur implements ContentHandler{
 
     @Override
     public void characters(char[] arg0, int arg1, int arg2) throws SAXException {
+        if (stateT){
+             ContentT = new String(arg0, arg1, arg2);
+        }
 
 
     }
@@ -113,7 +136,11 @@ public class Xml_parseur implements ContentHandler{
 
     @Override
     public void endElement(String arg0, String arg1, String arg2) throws SAXException {
-
+        if (arg2.equals("text")){
+            Text f = recupText();
+            list.add(f);
+            stateT = false;
+        }
 
     }
 
@@ -139,6 +166,7 @@ public class Xml_parseur implements ContentHandler{
 
     @Override
     public void skippedEntity(String arg0) throws SAXException {
+
 
     }
 

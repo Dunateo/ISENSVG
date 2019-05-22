@@ -23,6 +23,7 @@ public abstract class Figure {
         this.stroke = contour;
         this.strokeWidth = strokeWidth;
     }
+
     public abstract double getPerimetre();
     public abstract double getSurface();
     public abstract void setBoundingBox(int hauteurBB,int largueurBB);
