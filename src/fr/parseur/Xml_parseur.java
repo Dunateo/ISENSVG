@@ -40,28 +40,48 @@ public class Xml_parseur implements ContentHandler{
             stateT =true;
             recupTextAttri(arg3);
 
-
-        }else {
-            stateT = false;
+        }else if (nom.equals("isen_magic")){
+            Pictures f = recupPict(arg3);
+            list.add(f);
         }
 
 
-
     }
+
+    /**
+     * Text recup attributs
+     * @param arg3
+     */
     public void recupTextAttri(Attributes arg3){
         x = Integer.parseInt(arg3.getValue("x"));
         y=Integer.parseInt(arg3.getValue("y"));
         c= Color.decode(arg3.getValue("stroke"));
     }
 
+    public Pictures recupPict(Attributes arg3){
+        x = Integer.parseInt(arg3.getValue("x"));
+        y=Integer.parseInt(arg3.getValue("y"));
+        Pictures pict = new Pictures(new Point(x,y), "src/assets/pictures/toulon.png");
+        return pict;
+    }
+    /**
+     * Text creation
+     * @return
+     */
     public Text recupText() {
 
         Text text = new Text(new Point(x,y), c,ContentT);
         return text;
     }
+
+    /**
+     * rect recup attributs
+     * @param arg3
+     * @return
+     */
     public Rectangle recupRect(Attributes arg3)
     {
-        int x,y,l,L,ep;
+        int l,L,ep;
         Point pt ;
         String except;
         x=Integer.parseInt(arg3.getValue("x"));
@@ -81,6 +101,12 @@ public class Xml_parseur implements ContentHandler{
         Rectangle r = new Rectangle(pt,L,l,c,contour,ep);
         return r;
     }
+
+    /**
+     * Circle attributs recup
+     * @param arg3
+     * @return
+     */
     public Cercle recupCircle(Attributes arg3)
     {
         int x,y,r,ep;
