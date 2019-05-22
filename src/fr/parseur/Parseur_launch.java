@@ -14,7 +14,7 @@ public class Parseur_launch {
 
     public Xml_parseur par;
 
-    public Parseur_launch(String name ){
+    public Parseur_launch(String name) {
         par = new Xml_parseur();
         xmlReader(name);
     }
