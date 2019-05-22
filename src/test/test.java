@@ -8,7 +8,7 @@ import fr.graphics.*;
 public class test {
 	public static Fenetre mFenetre;
 	public static Text_area mCode;
-	public static Text_area mDessin;
+	public static Dessin mDessin;
 	
 
 	public static void main(String[] args) {
@@ -25,10 +25,16 @@ public class test {
         Scrool_pan Text = new Scrool_pan(contentArea);
         mCode = Text.mText;
         Dessin mDraw = new Dessin();
+        //mDessin = new Dessin();
+        mDessin = mDraw;
         
         //ajout des composants
         centerPan.mPan.add(Text.mPan, "West");
         centerPan.mPan.add(mDraw, "East");
+        //centerPan.mPan.add(mDessin, "East");
+        
+        //mDessin = mDraw;
+        
         Main.contentPane.add(centerPan.mPan, "Center");
         Main.setJMenuBar(Bar.mBar);
         Main.setVisible(true);

@@ -17,9 +17,10 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 public class Button_act extends OpenExistedFile implements ActionListener {
-
+		
     public Button_act(ArrayList<Buttons> list, ArrayList<Menu_item> Menulist){
 
         for ( Buttons f: list){
@@ -51,7 +52,7 @@ public class Button_act extends OpenExistedFile implements ActionListener {
         System.out.println("bouton presse = " + cmd);
         
         if(cmd.equals("Quitter")) {
-        	System.exit(0);
+        	quitFile();
         } else if(cmd.equals("Ouvrir")) {
         	openXMLFile();
         } else if(cmd.equals("Nouveau")) {
@@ -59,7 +60,7 @@ public class Button_act extends OpenExistedFile implements ActionListener {
         } else if(cmd.equals("Enregistrer")) {
         	registerXMLFile();
         } else if(cmd.equals("Exporter")) {
-        	//exportDessin();
+        	exportDessin();
     	} else {
         	System.err.println(cmd);
         }

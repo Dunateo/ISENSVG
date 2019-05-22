@@ -3,24 +3,39 @@ package fr.fichier;
 import test.test;
 
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 
 import fr.graphics.Fenetre;
 
-public class OpenExistedFile extends test{
+public class OpenExistedFile extends test implements ActionListener{
 	
-		// Choix d'un fichier XML
-		public File choixFichierXML () throws IOException {
+		// Boite de confirmation
+		public int confirmBox () {
+			
+			int option = JOptionPane.showConfirmDialog(null,"Voulez-vous enregistrer le fichier ?","Séléctionner une option ...",JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.QUESTION_MESSAGE);
+
+			// 0=yes, 1=no, 2=cancel
+			
+			return option;
+		}
+		
+		// Choix d'un fichier à ouvrir
+		public File choixOpenFichier () throws IOException {
 			JFileChooser dialogue = new JFileChooser(new File("."));
 			File fichier = null;
 			
@@ -31,8 +46,9 @@ public class OpenExistedFile extends test{
 			return fichier;
 		}
 		
-		// Récupération du texte d'un fichier XML
-		public String textFichierXML (File fichier) throws IOException {
+		
+		// Récupération du texte d'un fichier
+		public String textFichier (File fichier) throws IOException {
 			String texte = "";
 			
 			BufferedReader lecteurAvecBuffer = null;
@@ -55,17 +71,87 @@ public class OpenExistedFile extends test{
 			return texte;
 		}
 		
+		
 		// Ouvre un fichier XML et l'affiche dans la zone d'édition de code
 		public void openXMLFile () {
 			try {
-				File openFichier = choixFichierXML();
-				if(openFichier != null) {
-					String codeText = textFichierXML(openFichier);
-					//this.setVisible(false);
-					//Fenetre nouv = new Fenetre(openFichier.getName(),codeText);
-					//Code.setText(codeText);
-					mCode.setText(codeText);
-					//mFenetre().setTitle(openFichier.getName());
+				if(!mCode.getText().equals("")) {
+					int conf = -1;
+					
+					conf = confirmBox();
+					
+					if(conf == 0) {
+						registerXMLFile();
+						
+						File openFichier = choixOpenFichier();
+						
+						if(openFichier != null) {
+							String codeText = textFichier(openFichier);
+							
+							mCode.setText(codeText);
+							//mFenetre().setTitle(openFichier.getName());
+						}
+					} else if(conf == 1) {
+						File openFichier = choixOpenFichier();
+						
+						if(openFichier != null) {
+							String codeText = textFichier(openFichier);
+							
+							mCode.setText(codeText);
+							//mFenetre().setTitle(openFichier.getName());
+						}
+					} else {}
+				} else {
+					File openFichier = choixOpenFichier();
+					
+					if(openFichier != null) {
+						String codeText = textFichier(openFichier);
+						
+						mCode.setText(codeText);
+						//mFenetre().setTitle(openFichier.getName());
+					}
+				}
+				
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		
+		
+		// Choix d'un fichier à sauvegarder
+		public JFileChooser choixSaveFichier () throws IOException {
+			JFileChooser dialogue = new JFileChooser();
+			int retour = dialogue.showSaveDialog(null);
+			
+			if (retour == JFileChooser.APPROVE_OPTION) {
+				// nom du fichier  choisi
+				dialogue.getSelectedFile().getName();
+				// chemin absolu du fichier choisi
+				dialogue.getSelectedFile().getAbsolutePath();
+			} else {
+				dialogue = null;
+			}
+			
+			return dialogue;
+		}
+
+		
+		// Enregistrer fichier XML
+		public void registerXMLFile () {
+			try {
+				if(!mCode.getText().equals("")) {
+					JFileChooser saveFichier = choixSaveFichier();
+					
+					if(saveFichier != null) {
+						String texte = mCode.getText();
+						
+						try (FileOutputStream fos = new FileOutputStream(saveFichier.getSelectedFile().getAbsolutePath() + ".isvg")) {
+							fos.write(texte.getBytes());
+						} catch(IOException ex) {
+							ex.printStackTrace();
+						}
+					}
 				}
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
@@ -74,31 +160,74 @@ public class OpenExistedFile extends test{
 		}
 		
 		
-		// Enregistrer fichier XML
-		public void registerXMLFile () {
-			//String texte = Code.getText();
-			String texte = mCode.getText();
-			
-			JFileChooser choix = new JFileChooser();
-			int retour = choix.showSaveDialog(null);
-			
-			if(retour == JFileChooser.APPROVE_OPTION){
-			   // nom du fichier  choisi
-			   choix.getSelectedFile().getName();
-			   // chemin absolu du fichier choisi
-			   choix.getSelectedFile().getAbsolutePath();
-			}
-			
-			try (FileOutputStream fos = new FileOutputStream(choix.getSelectedFile().getAbsolutePath() + ".isvg")) {
-				fos.write(texte.getBytes());
-			} catch(IOException ex) {
-				ex.printStackTrace();
-			}
-		}
-		
-		
-		// Enregistrer fichier XML
+		// Créer nouveau code isvg
 		public void nouveauFile () {
-			mCode.setText("");
+			if(!mCode.getText().equals("")) {
+				
+				int conf = -1;
+				
+				conf = confirmBox();
+				
+				if(conf == 0) {
+					registerXMLFile();
+					mCode.setText("");
+				} else if(conf == 1) {
+					mCode.setText("");
+				} else {}
+			}
 		}
+		
+		
+		// Quitter le logiciel
+		public void quitFile () {
+			if(!mCode.getText().equals("")) {
+				
+				int conf = -1;
+				
+				conf = confirmBox();
+				
+				if(conf == 0) {
+					registerXMLFile();
+					System.exit(0);
+				} else if(conf == 1) {
+					System.exit(0);
+				} else {}
+			} else {
+				System.exit(0);
+			}
+		}
+		
+		
+		// Exporter le dessin
+		public void exportDessin() {
+			try {
+				if(mDessin.getList().isEmpty() == false) {
+					JFileChooser choix = choixSaveFichier();
+					
+					if(choix != null) {
+						BufferedImage bi = new BufferedImage(mDessin.getSize().width, mDessin.getSize().height, BufferedImage.TYPE_INT_ARGB);
+						Graphics g = bi.createGraphics();
+						
+						mDessin.paint(g);
+						g.dispose();
+						
+						try{
+						    ImageIO.write(bi,"png",new File(choix.getSelectedFile().getAbsolutePath()+".png"));
+						} catch (Exception e) {}
+					}
+				}
+				
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
 }
