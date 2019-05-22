@@ -1,22 +1,31 @@
 package test;
+import javax.swing.JTextArea;
+
 import fr.action_listenner.Button_act;
 import fr.graphics.*;
 
 
 public class test {
-    public static void main(String[] args) {
+	public static Fenetre mFenetre;
+	public static Text_area mCode;
+	public static Text_area mDessin;
+	
+
+	public static void main(String[] args) {
 
         //déclaration des array
-        String Item[] = {"Ouvrir","Nouveau","Enregistrer","|","Quitter"};
+        String Item[] = {"Ouvrir","Nouveau","Enregistrer","Exporter","|","Quitter"};
         String nomMenu[] = {"File"};
         String contentArea = "ma bite";
         //la fenetre
         Fenetre Main = new Fenetre("ISENSVG");
+        mFenetre = Main;
         Menu_bar Bar = new Menu_bar(nomMenu, Item, "moi");
         Panel centerPan = new Panel(1,1);
         Scrool_pan Text = new Scrool_pan(contentArea);
+        mCode = Text.mText;
         Dessin mDraw = new Dessin();
-
+        
         //ajout des composants
         centerPan.mPan.add(Text.mPan, "West");
         centerPan.mPan.add(mDraw, "East");

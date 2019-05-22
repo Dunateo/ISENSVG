@@ -27,11 +27,7 @@ public class Dessin extends JPanel {
         nomFigure = "Rectangle";
         //liste d'objets figures
         list = new ArrayList<Figure>();
-
-
-
     }
-
 
 
     //redefine the paint Components methods
@@ -143,13 +139,38 @@ public class Dessin extends JPanel {
      * @param name
      */
     public void exportDessin(String name){
-        BufferedImage bi = new BufferedImage(this.getSize().width, this.getSize().height, BufferedImage.TYPE_INT_ARGB);
-        Graphics g = bi.createGraphics();
-        this.paint(g);  //this == JComponent
-        g.dispose();
-        try{
-            ImageIO.write(bi,"png",new File(name));
-        }catch (Exception e) {}
-    }
+		BufferedImage bi = new BufferedImage(this.getSize().width, this.getSize().height, BufferedImage.TYPE_INT_ARGB);
+		Graphics g = bi.createGraphics();
+		
+		this.paint(g);  //this == JComponent
+		g.dispose();
+		
+		try{
+		    ImageIO.write(bi,"png",new File(name));
+		} catch (Exception e) {}
+	}
+    
+	public void exportDessin() {
+		JFileChooser choix = new JFileChooser();
+		int retour = choix.showSaveDialog(null);
+		BufferedImage bi = new BufferedImage(this.getSize().width, this.getSize().height, BufferedImage.TYPE_INT_ARGB);
+		Graphics g = bi.createGraphics();
+		
+		this.paint(g);
+		g.dispose();
+		
+		if(retour == JFileChooser.APPROVE_OPTION){
+		   // nom du fichier  choisi
+		   choix.getSelectedFile().getName();
+		   // chemin absolu du fichier choisi
+		   choix.getSelectedFile().getAbsolutePath();
+		}
+		
+		try (FileOutputStream fos = new FileOutputStream(choix.getSelectedFile().getAbsolutePath() + ".png")) {
+			ImageIO.write(bi,"png",new File(choix.getSelectedFile().getAbsolutePath()));
+		} catch(IOException ex) {
+			ex.printStackTrace();
+		}
+	}
 
 }
