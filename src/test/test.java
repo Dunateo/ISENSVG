@@ -38,7 +38,5 @@ public class test {
         Main.contentPane.add(centerPan.mPan, "Center");
         Main.setJMenuBar(Bar.mBar);
         Main.setVisible(true);
-
-
     }
 }
