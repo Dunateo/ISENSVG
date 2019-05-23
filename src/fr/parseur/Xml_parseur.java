@@ -24,7 +24,14 @@ public class Xml_parseur implements ContentHandler{
     private Color c,contour;
     Point translate;
 
-
+    /**s
+     * Element start
+     * @param arg0
+     * @param arg1
+     * @param nom
+     * @param arg3
+     * @throws SAXException
+     */
     @Override
     public void startElement(String arg0, String arg1, String nom, Attributes arg3) throws SAXException {
 
@@ -61,6 +68,11 @@ public class Xml_parseur implements ContentHandler{
 
     }
 
+    /**
+     * Recup the polygon attributes
+     * @param arg3
+     * @return
+     */
     public Polygon recupPolygon(Attributes arg3){
         String Cont;
         StrokeTest(arg3);
@@ -391,6 +403,8 @@ public class Xml_parseur implements ContentHandler{
     public void startDocument() throws SAXException {
 
     }
+
+
 //color decode
     public static Color stringToColor(final String value) {
 
@@ -401,13 +415,60 @@ public class Xml_parseur implements ContentHandler{
             return Color.decode(value);
         } catch (NumberFormatException nfe) {
             try {
-                final Field f = Color.class.getField(value);
-                return (Color) f.get(null);
+                Color g = xmlBasicColor(value);
+                return g;
             } catch (Exception ce) {
                 return Color.black;
             }
         }
     }
+
+    /**
+     * the basics color for xml
+     * @param value
+     * @return
+     */
+    static private Color xmlBasicColor(final String value){
+
+    if (value.equals("maroon")){
+        return Color.decode("#800000");
+    }else if (value.equals("red")){
+        return Color.decode("#ff0000");
+    }else if (value.equals("orange")){
+        return Color.decode("#ffA500");
+    }else if (value.equals("yellow")){
+        return Color.decode("#ffff00");
+    }else if (value.equals("olive")){
+        return Color.decode("#808000");
+    }else if (value.equals("purple")){
+        return Color.decode("#800080");
+    }else if (value.equals("fuchsia")){
+        return Color.decode("#ff00ff");
+    }else if (value.equals("white")){
+        return Color.decode("#ffffff");
+    }else if (value.equals("lime")){
+        return Color.decode("#00ff00");
+    }else if (value.equals("green")){
+        return Color.decode("#008000");
+    }else if (value.equals("navy")){
+        return Color.decode("#000080");
+    }else if (value.equals("blue")){
+        return Color.decode("#0000ff");
+    }else if (value.equals("aqua")){
+        return Color.decode("#00ffff");
+    }else if (value.equals("teal")){
+        return Color.decode("#008080");
+    }else if (value.equals("black")){
+        return Color.decode("#000000");
+    }else if (value.equals("silver")){
+        return Color.decode("#c0c0c0");
+    }else if (value.equals("gray")){
+        return Color.decode("#808080");
+    }else{
+        return Color.black;
+    }
+
+}
 
 }
 
