@@ -63,8 +63,21 @@ public class Xml_parseur implements ContentHandler{
         }else if (nom.equals("polygon")){
             Polygon f = recupPolygon(arg3);
             list.add(f);
+        }else if (nom.equals("ellipse")){
+            Ellipse f = recupEllipse(arg3);
+            list.add(f);
         }
 
+
+    }
+
+    public Ellipse recupEllipse(Attributes arg3){
+        x = Integer.parseInt(arg3.getValue("rx"));
+        y = Integer.parseInt(arg3.getValue("ry"));
+        StrokeTest(arg3);
+
+        Ellipse el = new Ellipse(translate, x,y,c);
+        return el;
 
     }
 
@@ -112,6 +125,13 @@ public class Xml_parseur implements ContentHandler{
             contour = stringToColor(arg3.getValue("stroke"));
         }else if (arg3.getValue("stroke-width") != null){
             ep = Integer.parseInt(arg3.getValue("stroke-width"));
+        }else if (arg3.getValue("fill") != null){
+            String ct = arg3.getValue("fill");
+            if (ct.equals("none")){
+                c = new Color(0,0,0,1);
+            }else {
+                c = stringToColor(ct);
+            }
         }
     }
     /**

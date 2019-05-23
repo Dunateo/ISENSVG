@@ -17,16 +17,23 @@ public class Ellipse extends Figure {
         grandAxe = 0;
         petitAxe = 0;
     }
-    Ellipse(Point p, int gAxe, int pAxe, Color couleur, Color colorStroke, int epaisseur) {
+    public Ellipse(Point p, int gAxe, int pAxe, Color couleur, Color colorStroke, int epaisseur) {
         super(p, couleur, colorStroke,epaisseur );
         this.grandAxe = gAxe*2;
         this.petitAxe = pAxe*2;
     }
+    public Ellipse(Point p, int gAxe, int pAxe, Color couleur) {
+        super(p, couleur );
+        this.grandAxe = gAxe*2;
+        this.petitAxe = pAxe*2;
+        this.stroke = new Color(0,0,0,1);
+        this.strokeWidth = 0;
+    }
 
     Ellipse(int grandAxe, int petitAxe){
         super(new Point(0,0));
-        this.grandAxe = grandAxe;
-        this.petitAxe = petitAxe;
+        this.grandAxe = grandAxe*2;
+        this.petitAxe = petitAxe*2;
 
     }
 
