@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import fr.geometrie.*;
 import fr.geometrie.Point;
+import fr.geometrie.Polygon;
 import fr.geometrie.Rectangle;
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
@@ -19,7 +20,7 @@ public class Xml_parseur implements ContentHandler{
     private ArrayList<Figure> list = new ArrayList<Figure>();
     private String ContentT;
     private boolean stateT = false, stateG = false ;
-    private int x,y, rotate;
+    private int x,y, rotate, ep;
     private Color c,contour;
     Point translate;
 
@@ -28,8 +29,7 @@ public class Xml_parseur implements ContentHandler{
     public void startElement(String arg0, String arg1, String nom, Attributes arg3) throws SAXException {
 
         System.out.println(nom);
-        if (nom.equals("rect"))
-        {
+        if (nom.equals("rect")) {
             Rectangle f= recupRect(arg3);
             list.add(f);
         }
@@ -47,11 +47,94 @@ public class Xml_parseur implements ContentHandler{
         }else if (nom.equals("g")){
             stateG = true;
             recupG(arg3);
+        }else if (nom.equals("line")){
+            Line f = recupLine(arg3);
+            list.add(f);
+        }else if (nom.equals("polyline") ){
+            Polyline f = recupPolyline(arg3);
+            list.add(f);
+        }else if (nom.equals("polygon")){
+            Polygon f = recupPolygon(arg3);
+            list.add(f);
         }
 
 
     }
 
+    public Polygon recupPolygon(Attributes arg3){
+        String Cont;
+        StrokeTest(arg3);
+        Cont = arg3.getValue("points");
+        String[] tab = ReformatandCut(Cont);
+        String[] orig = tab[0].split(",");
+        c = stringToColor(arg3.getValue("fill"));
+        Point p = new Point(Integer.parseInt(orig[0]),Integer.parseInt(orig[1]));
+        Polygon pol = new Polygon(tab,c,contour,ep,p);
+        return pol;
+    }
+
+    /**
+     * Recup the polyline attributes
+     * @param arg3
+     * @return
+     */
+    public Polyline recupPolyline(Attributes arg3){
+        String content;
+        StrokeTest(arg3);
+        content = arg3.getValue("points");
+        String[] tab = ReformatandCut(content);
+        String[] orig = tab[0].split(",");
+        Point p = new Point(Integer.parseInt(orig[0]),Integer.parseInt(orig[1]));
+
+        Polyline l = new Polyline(tab,contour,ep, p);
+        return l;
+
+    }
+
+    /**
+     * assignation stroke
+     * @param arg3
+     */
+    private void StrokeTest(Attributes arg3){
+        if (arg3.getValue("stroke") != null){
+            contour = stringToColor(arg3.getValue("stroke"));
+        }else if (arg3.getValue("stroke-width") != null){
+            ep = Integer.parseInt(arg3.getValue("stroke-width"));
+        }
+    }
+    /**
+     * Reformat and cut a String with ;
+     * @param content
+     * @return
+     */
+    private String[] ReformatandCut(String content){
+        //refactor the string
+        String regular = content.replaceAll(" +", ";");
+        //Split by points
+        String[] tab = regular.split(";");
+
+        return tab;
+
+    }
+    /**
+     * Recup the attributes of a line
+     * @param arg3
+     * @return
+     */
+    public  Line recupLine(Attributes arg3){
+        int x2,y2, ep;
+        x = Integer.parseInt(arg3.getValue("x1"));
+        y = Integer.parseInt(arg3.getValue("y1"));
+        x2 = Integer.parseInt(arg3.getValue("x2"));
+        y2 = Integer.parseInt(arg3.getValue("y2"));
+
+        if (arg3.getValue("stroke") != null){
+            c = stringToColor(arg3.getValue("stroke"));
+        }
+        ep = Integer.parseInt(arg3.getValue("stroke-width"));
+        Line lin = new Line(new Point(x,y), new Point(x2,y2),c,ep);
+        return lin;
+    }
     /**
      * Assign the transform parameter to his goal
      * @param arg3
@@ -78,6 +161,11 @@ public class Xml_parseur implements ContentHandler{
             }
 
 
+        }else if (arg3.getValue("stroke") != null){
+            c = stringToColor(arg3.getValue("stroke"));
+
+        }else if (arg3.getValue("stroke-width") != null){
+            ep = Integer.parseInt(arg3.getValue("stroke-width"));
         }
 
     }
@@ -92,6 +180,11 @@ public class Xml_parseur implements ContentHandler{
         c= Color.decode(arg3.getValue("stroke"));
     }
 
+    /**
+     * recup Attributes fof a pictures
+     * @param arg3
+     * @return
+     */
     public Pictures recupPict(Attributes arg3){
         x = Integer.parseInt(arg3.getValue("x"));
         y=Integer.parseInt(arg3.getValue("y"));
@@ -143,7 +236,6 @@ public class Xml_parseur implements ContentHandler{
             c= stringToColor(except);
         }
 
-
         //rounded rect or normal one
         if (arg3.getValue("rx") == null && arg3.getValue("ry") == null){
             Rectangle r;
@@ -164,6 +256,7 @@ public class Xml_parseur implements ContentHandler{
             }
             return r;
         }else if (arg3.getValue("ry") == null){
+
             rx = Integer.parseInt(arg3.getValue("rx"));
             ry = rx;
             Rounded_rectangle r ;
@@ -258,7 +351,6 @@ public class Xml_parseur implements ContentHandler{
 
     @Override
     public void endElement(String arg0, String arg1, String arg2) throws SAXException {
-        System.out.println("</"+arg2+">" );
         if (arg2.equals("text")){
             Text f = recupText();
             list.add(f);

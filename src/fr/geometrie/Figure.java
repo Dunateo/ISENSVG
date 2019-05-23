@@ -23,6 +23,11 @@ public abstract class Figure {
         this.stroke = contour;
         this.strokeWidth = strokeWidth;
     }
+    public Figure(Point p, Color contour, int strokeWidth){
+        this.origine = p;
+        this.stroke = contour;
+        this.strokeWidth = strokeWidth;
+    }
 
     public abstract double getPerimetre();
     public abstract double getSurface();
