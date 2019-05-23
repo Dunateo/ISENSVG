@@ -19,14 +19,15 @@ public class Parseur_launch {
         xmlReader(name);
     }
 
-    public void xmlReader(String Xmlname){
-        try {
+    public void xmlReader(String Xmlname) {
+        
+    	try {
             SAXParser p = SAXParserFactory.newInstance().newSAXParser();
             XMLReader xr = p.getXMLReader();
 
             xr.setContentHandler(par);
             xr.parse(Xmlname);
-
+            
         } catch (DOMException e) {
             e.printStackTrace();
         } catch (ParserConfigurationException e) {
@@ -39,5 +40,4 @@ public class Parseur_launch {
             e.printStackTrace();
         }
     }
-
 }

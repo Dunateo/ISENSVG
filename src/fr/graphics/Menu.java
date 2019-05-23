@@ -64,7 +64,7 @@ public class Menu extends JMenu {
     /**
      * Create an action Button
      */
-    private void actionEvent(){
+    private void actionEvent() {
 
              Button_act Action = new Button_act(JMIlist);
 

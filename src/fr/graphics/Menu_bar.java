@@ -30,7 +30,10 @@ public class Menu_bar extends JMenuBar {
     public ArrayList<Menu> getMlist() {
         return Mlist;
     }
-
+    
+    public Menu getMListI(int n) {
+    	return Mlist.get(n);
+    }
 
     public String getmName() {
         return mName;

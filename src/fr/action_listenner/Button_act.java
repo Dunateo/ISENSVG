@@ -2,6 +2,7 @@ package fr.action_listenner;
 
 import fr.graphics.Buttons;
 import fr.graphics.Menu_item;
+import fr.graphics.Text_area;
 import fr.parseur.Parseur_launch;
 import fr.graphics.Dessin;
 import fr.fichier.GestionFichier;
@@ -20,10 +21,10 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-public class Button_act extends GestionFichier implements ActionListener {
-		
+public class Button_act implements ActionListener {
+	
     public Button_act(ArrayList<Buttons> list, ArrayList<Menu_item> Menulist){
-
+    	
         for ( Buttons f: list){
             f.mButton.addActionListener(this);
         }
@@ -34,41 +35,29 @@ public class Button_act extends GestionFichier implements ActionListener {
     }
     
     public Button_act(ArrayList<Menu_item> list){
-
+    	
         for ( Menu_item f: list){
             f.Item.addActionListener(this);
         }
     }
     
     public Button_act(Buttons btn){
-            btn.mButton.addActionListener(this);
+    	
+    	btn.mButton.addActionListener(this);
+    }
+    
+    public Button_act(ArrayList<Menu_item> Menulist, ActionListener e) {
+    	 for ( Menu_item f: Menulist){
+             f.Item.addActionListener(e);
+         }
     }
 
-    /**
-     * action listener
-     * @param e
-     */
-    public void actionPerformed(ActionEvent e){
-        String cmd = e.getActionCommand();
-        System.out.println("bouton presse = " + cmd);
-        
-        if(cmd.equals("Quitter")) {
-        	quitFile();
-        } else if(cmd.equals("Ouvrir")) {
-        	openXMLFile();
-        } else if(cmd.equals("Nouveau")) {
-        	nouveauFile();
-        } else if(cmd.equals("Enregistrer")) {
-        	registerXMLFile();
-        } else if(cmd.equals("Exporter")) {
-        	exportDessin();
-    	} else if(cmd.equals("Refresh")) {
-    		//Parseur_launch par = new Parseur_launch();
-    	} else {
-        	System.err.println(cmd);
-        }
-
-    }
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+ 
 
 	
 
