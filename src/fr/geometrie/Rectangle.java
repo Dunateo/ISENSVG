@@ -20,7 +20,7 @@ public class Rectangle extends Figure{
         largeur = 0;
     }
 
-    Rectangle(int longueur, int largeur){
+    public Rectangle(int longueur, int largeur){
         super(new Point(0,0));
         this.longueur = longueur;
         this.largeur = largeur;

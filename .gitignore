@@ -10,3 +10,5 @@ test.xml
 /bin/
 .project
 .classpath
+src/test/RectangleTest.java
+src/test/test.java
