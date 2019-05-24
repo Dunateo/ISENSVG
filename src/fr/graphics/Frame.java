@@ -18,7 +18,8 @@ public class Frame extends GestionFichier implements ActionListener, KeyListener
 	public Dessin mDessin;
 	public Parseur_launch mParse;
 	public Fenetre principale;
-	private boolean StateAutoRefresh = false;
+	public Panel centerPan;
+	private boolean StateAutoRefresh = false, StateFullScreen = false;
 	private String version = "Version: Beta 0.2";
 	
 	public Frame () {
@@ -33,7 +34,7 @@ public class Frame extends GestionFichier implements ActionListener, KeyListener
 			principale = new Fenetre("ValouML", "src/assets/pictures/logo-app.png");
 		
 			// Dclaration des array
-	        String Item[][] = {{"Ouvrir", "Nouveau", "Sauvegarder", "Exporter", "|", "Quitter"}, {"Refresh", "Auto-Refresh"}, {"¤Version", "¤Auteur"}};;
+	        String Item[][] = {{"Ouvrir", "Nouveau", "Sauvegarder", "Exporter", "|", "Quitter"}, {"Refresh", "Auto-Refresh", "Full-Screen"}, {"¤Version", "¤Auteur"}};;
 	        String nomMenu[] = {"File","Edition","About"};
 	        
 	        Menu_bar Bar = new Menu_bar(nomMenu, Item, "moi");
@@ -41,17 +42,19 @@ public class Frame extends GestionFichier implements ActionListener, KeyListener
 	        Button_act B2 = new Button_act(Bar.getMListI(1).getJMIlist(),this);
 			Button_act B3 = new Button_act(Bar.getMListI(2).getJMIlist(),this);
 			mEditCode.xmlTextPane.addKeyListener(this);
-	        Panel centerPan = new Panel(1,1);
+			centerPan = new Panel(1,1);
 			mEditCode.xmlTextPane.setOpaque(true);
 			mEditCode.xmlTextPane.setBackground(Color.decode("#263238"));
 			mEditCode.xmlTextPane.setCaretColor(Color.white);
 
-	        // Ajout des composants
-	        centerPan.mPan.add(mEditCode.mPan, "West");
-	        centerPan.mPan.add(mDessin, "East");
-	        
-	        principale.contentPane.add(centerPan.mPan, "Center");
-	        principale.setJMenuBar(Bar.mBar);
+			// Ajout des composants
+			centerPan.mPan.add(mEditCode.mPan, "West");
+			centerPan.mPan.add(mDessin, "East");
+
+			principale.contentPane.add(centerPan.mPan, "Center");
+
+
+			principale.setJMenuBar(Bar.mBar);
 	        principale.setVisible(true);
 	}
 
@@ -83,12 +86,30 @@ public class Frame extends GestionFichier implements ActionListener, KeyListener
 				StateAutoRefresh = true;
 			}
 
+		} else if (cmd.equals("Full-Screen")){
+
+			if (StateFullScreen){
+				StateFullScreen = false;
+				centerPan.mPan.add(mEditCode.mPan, "West");
+				centerPan.mPan.add(mDessin, "East");
+				principale.contentPane.add(centerPan.mPan, "Center");
+				principale.setVisible(true);
+
+			}else {
+				StateFullScreen = true;
+				principale.contentPane.remove(centerPan.mPan);
+				principale.contentPane.add(mDessin,"Center");
+				principale.setVisible(true);
+
+
+			}
+
 		} else if (cmd.equals("Version")){
 			JOptionPane.showMessageDialog((Component) e.getSource(), version,"Version", JOptionPane.INFORMATION_MESSAGE);
 		}else if (cmd.equals("Auteur")){
 			JOptionPane.showMessageDialog((Component) e.getSource(), "ValouML editor by Valentin Bru","Auteur", JOptionPane.INFORMATION_MESSAGE);
 
-		}else {
+		} else {
 			System.err.println(cmd);
 		}
 	}
