@@ -35,6 +35,7 @@ public class Polyline extends Figure {
     public  void draw(Graphics2D g){
         for ( Line f: list){
             f.draw(g);
+
         }
     }
     public  void drawDragged(Graphics2D g){

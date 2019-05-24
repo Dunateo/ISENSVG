@@ -21,7 +21,7 @@ public class Line extends Figure {
 
     }
     public  void draw(Graphics2D g){
-        g.setColor(stroke);
+        g.setColor(this.stroke);
         g.setStroke(new BasicStroke(this.strokeWidth));
         g.drawLine(origine.getX(),origine.getY(),endLine.getX(), endLine.getY());
     }

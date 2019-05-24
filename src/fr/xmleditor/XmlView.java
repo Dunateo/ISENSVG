@@ -32,16 +32,12 @@ public class XmlView extends PlainView {
     static {
         // NOTE: the order is important!
         patternColors = new LinkedHashMap<Pattern, Color>();
-        patternColors
-                .put(Pattern.compile(TAG_PATTERN), new Color(63, 127, 127));
-        patternColors.put(Pattern.compile(TAG_CDATA), Color.GRAY);
-        patternColors.put(Pattern.compile(TAG_ATTRIBUTE_PATTERN), new Color(
-                127, 0, 127));
-        patternColors.put(Pattern.compile(TAG_END_PATTERN), new Color(63, 127,
-                127));
-        patternColors.put(Pattern.compile(TAG_ATTRIBUTE_VALUE), new Color(42,
-                0, 255));
-        patternColors.put(Pattern.compile(TAG_COMMENT), Color.BLUE);
+        patternColors.put(Pattern.compile(TAG_PATTERN), new Color(174, 141, 244));
+        patternColors.put(Pattern.compile(TAG_CDATA), Color.lightGray);
+        patternColors.put(Pattern.compile(TAG_ATTRIBUTE_PATTERN), new Color(224, 212, 105));
+        patternColors.put(Pattern.compile(TAG_END_PATTERN), new Color(174, 141, 244));
+        patternColors.put(Pattern.compile(TAG_ATTRIBUTE_VALUE), new Color(239, 93, 93));
+        patternColors.put(Pattern.compile(TAG_COMMENT), new Color(239, 93, 93));
     }
 
     public XmlView(Element element) {
@@ -85,7 +81,7 @@ public class XmlView extends PlainView {
             int end = entry.getValue();
 
             if (i < start) {
-                graphics.setColor(Color.black);
+                graphics.setColor(Color.white);
                 doc.getText(p0 + i, start - i, segment);
                 x = Utilities.drawTabbedText(segment, x, y, graphics, this, i);
             }
@@ -98,7 +94,7 @@ public class XmlView extends PlainView {
 
         // Paint possible remaining text black
         if (i < text.length()) {
-            graphics.setColor(Color.black);
+            graphics.setColor(Color.white);
             doc.getText(p0 + i, text.length() - i, segment);
             x = Utilities.drawTabbedText(segment, x, y, graphics, this, i);
         }

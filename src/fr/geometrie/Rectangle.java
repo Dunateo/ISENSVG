@@ -8,9 +8,7 @@ public class Rectangle extends Figure{
 
     protected int longueur;
     protected int largeur;
-    protected boolean transform = false;
-    protected Point translate;
-    protected int rotate;
+    protected Transform trans;
 
     Rectangle(Point p) {
         super(p);
@@ -34,15 +32,14 @@ public class Rectangle extends Figure{
         super(p, couleur, colorStroke,epaisseur );
         this.longueur = longueur;
         this.largeur = largeur;
+        trans = new Transform(false);
     }
 
     public Rectangle(Point p, int longueur, int largeur, Color couleur, Color colorStroke, int epaisseur, Point translate, int rotate) {
         super(p, couleur, colorStroke,epaisseur );
         this.longueur = longueur;
         this.largeur = largeur;
-        this.translate = translate;
-        this.rotate = rotate;
-        this.transform = true;
+        trans = new Transform(translate,rotate,true);
     }
 
 
@@ -78,10 +75,7 @@ public class Rectangle extends Figure{
         g.setStroke(new BasicStroke(this.strokeWidth));
         g.drawRect(origine.getX(),origine.getY(), largeur,longueur);
 
-        if (transform ){
-            g.translate(translate.getX(), translate.getY());
-            g.rotate(Math.toRadians(rotate));
-        }
+        trans.drawTransform(g,trans);
 
     }
     public void drawDragged(Graphics2D g){
@@ -97,7 +91,6 @@ public class Rectangle extends Figure{
         this.largeur = largeur;
     }
     public void setLongueur(int longueur) { this.longueur = longueur; }
-    public int getRotate() { return rotate; }
 
     public String toString(){
         String result="+";

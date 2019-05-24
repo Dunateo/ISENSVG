@@ -12,7 +12,7 @@ public class Fenetre extends JFrame{
         this.setLocation(0,0);
         this.setSize(920,800);
         this.setVisible(true);
-        this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource(IconAcces)));
+        this.setIconImage(new ImageIcon(IconAcces).getImage());
 
         contentPane = getContentPane();
         setVisible(true);

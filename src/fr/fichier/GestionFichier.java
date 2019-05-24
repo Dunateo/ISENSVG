@@ -38,7 +38,7 @@ public class GestionFichier /*extends Frame*/ implements ActionListener{
 		}
 		
 		
-		// Choix d'un fichier à ouvrir
+		// Choix d'un fichier  ouvrir
 		public File choixOpenFichier () throws IOException {
 			JFileChooser dialogue = new JFileChooser(new File("."));
 			File fichier = null;
@@ -51,7 +51,7 @@ public class GestionFichier /*extends Frame*/ implements ActionListener{
 		}
 		
 		
-		// Récupération du texte d'un fichier
+		// Rï¿½cupï¿½ration du texte d'un fichier
 		public String textFichier (File fichier) throws IOException {
 			String texte = "";
 			
@@ -76,7 +76,7 @@ public class GestionFichier /*extends Frame*/ implements ActionListener{
 		}
 		
 		
-		// Ouvre un fichier XML et l'affiche dans la zone d'édition de code
+		// Ouvre un fichier XML et l'affiche dans la zone d'ï¿½dition de code
 		public void openXMLFile (XmlTextPane xmlTextPane, Dessin mDessin, Parseur_launch mParse, Fenetre mFenetre) {
 			try {
 				if(!xmlTextPane.getText().equals("")) {
@@ -93,7 +93,7 @@ public class GestionFichier /*extends Frame*/ implements ActionListener{
 							String codeText = textFichier(openFichier);
 							
 							xmlTextPane.setText(codeText);
-							mFenetre.setTitle("ISVG < " + openFichier.getName() + " >");
+							mFenetre.setTitle("ValouML < " + openFichier.getName() + " >");
 						}
 					} else if(conf == 1) {
 						File openFichier = choixOpenFichier();
@@ -102,9 +102,9 @@ public class GestionFichier /*extends Frame*/ implements ActionListener{
 							String codeText = textFichier(openFichier);
 							
 							xmlTextPane.setText(codeText);
-							mFenetre.setTitle("ISVG < " + openFichier.getName() + " >");
+							mFenetre.setTitle("ValouML < " + openFichier.getName() + " >");
 							
-							mParse = new Parseur_launch(openFichier.getAbsolutePath());
+							mParse = new Parseur_launch(openFichier.getAbsolutePath(),true);
 							mDessin.refreshParseur(mParse.par.getList());
 						}
 					} else {}
@@ -115,21 +115,20 @@ public class GestionFichier /*extends Frame*/ implements ActionListener{
 						String codeText = textFichier(openFichier);
 						
 						xmlTextPane.setText(codeText);
-						mFenetre.setTitle("ISVG < " + openFichier.getName() + " >");
+						mFenetre.setTitle("ValouML < " + openFichier.getName() + " >");
 						
-						mParse = new Parseur_launch(openFichier.getAbsolutePath());
+						mParse = new Parseur_launch(openFichier.getAbsolutePath(),true);
 						mDessin.refreshParseur(mParse.par.getList());
 					}
 				}
 				
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		}
 		
 		
-		// Choix d'un fichier à sauvegarder
+		// Choix d'un fichier sauvegarder
 		public JFileChooser choixSaveFichier () throws IOException {
 			JFileChooser dialogue = new JFileChooser();
 			int retour = dialogue.showSaveDialog(null);
@@ -163,9 +162,9 @@ public class GestionFichier /*extends Frame*/ implements ActionListener{
 						}
 						
 						if(mFenetre != null) {
-							mFenetre.setTitle("ISVG < " + saveFichier.getSelectedFile().getAbsolutePath() + " >");
+							mFenetre.setTitle("ValouML < " + saveFichier.getSelectedFile().getAbsolutePath() + " >");
 						} else {
-							mFenetre.setTitle("ISVG < No Name >");
+							mFenetre.setTitle("ValouMl < No Name >");
 						}
 					}
 				}
@@ -176,7 +175,7 @@ public class GestionFichier /*extends Frame*/ implements ActionListener{
 		}
 		
 		
-		// Créer nouveau code isvg
+		// Crer nouveau code isvg
 		public void nouveauFile (XmlTextPane xmlTextPane, Dessin mDessin, Fenetre mFenetre) {
 			if(!xmlTextPane.getText().equals("")) {
 				
@@ -188,11 +187,11 @@ public class GestionFichier /*extends Frame*/ implements ActionListener{
 					registerXMLFile(xmlTextPane,null);
 					xmlTextPane.setText("");
 					mDessin.nouveau();
-					mFenetre.setTitle("ISVG < No Name >");
+					mFenetre.setTitle("ValouML < No Name >");
 				} else if(conf == 1) {
 					xmlTextPane.setText("");
 					mDessin.nouveau();
-					mFenetre.setTitle("ISVG < No Name >");
+					mFenetre.setTitle("ValouML < No Name >");
 				} else {}
 			}
 		}

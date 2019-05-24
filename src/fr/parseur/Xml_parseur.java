@@ -49,7 +49,7 @@ public class Xml_parseur implements ContentHandler{
             recupTextAttri(arg3);
 
         }else if (nom.equals("isen_magic")){
-            Pictures f = recupPict(arg3);
+            Pictures f = recupPict(arg3,"src/assets/pictures/toulon.png");
             list.add(f);
         }else if (nom.equals("g")){
             stateG = true;
@@ -66,17 +66,25 @@ public class Xml_parseur implements ContentHandler{
         }else if (nom.equals("ellipse")){
             Ellipse f = recupEllipse(arg3);
             list.add(f);
+        }else if (nom.equals("valouml_icon")){
+            Pictures f = recupPict(arg3,"src/assets/pictures/logo.png");
+            list.add(f);
         }
 
 
     }
 
+    /**
+     * Recup the Ellipse Attributes
+     * @param arg3
+     * @return
+     */
     public Ellipse recupEllipse(Attributes arg3){
         x = Integer.parseInt(arg3.getValue("rx"));
         y = Integer.parseInt(arg3.getValue("ry"));
         StrokeTest(arg3);
 
-        Ellipse el = new Ellipse(translate, x,y,c);
+        Ellipse el = new Ellipse(new Point(0,0), x,y,c,contour,ep, translate,rotate);
         return el;
 
     }
@@ -93,8 +101,9 @@ public class Xml_parseur implements ContentHandler{
         String[] tab = ReformatandCut(Cont);
         String[] orig = tab[0].split(",");
         c = stringToColor(arg3.getValue("fill"));
+        int strokeW = Integer.parseInt(arg3.getValue("stroke-width"));
         Point p = new Point(Integer.parseInt(orig[0]),Integer.parseInt(orig[1]));
-        Polygon pol = new Polygon(tab,c,contour,ep,p);
+        Polygon pol = new Polygon(tab,c,contour,strokeW,p);
         return pol;
     }
 
@@ -106,12 +115,12 @@ public class Xml_parseur implements ContentHandler{
     public Polyline recupPolyline(Attributes arg3){
         String content;
         StrokeTest(arg3);
+        int strokeW = Integer.parseInt(arg3.getValue("stroke-width"));
         content = arg3.getValue("points");
         String[] tab = ReformatandCut(content);
         String[] orig = tab[0].split(",");
         Point p = new Point(Integer.parseInt(orig[0]),Integer.parseInt(orig[1]));
-
-        Polyline l = new Polyline(tab,contour,ep, p);
+        Polyline l = new Polyline(tab,contour,strokeW, p);
         return l;
 
     }
@@ -125,6 +134,7 @@ public class Xml_parseur implements ContentHandler{
             contour = stringToColor(arg3.getValue("stroke"));
         }else if (arg3.getValue("stroke-width") != null){
             ep = Integer.parseInt(arg3.getValue("stroke-width"));
+            System.out.println(ep);
         }else if (arg3.getValue("fill") != null){
             String ct = arg3.getValue("fill");
             if (ct.equals("none")){
@@ -217,10 +227,10 @@ public class Xml_parseur implements ContentHandler{
      * @param arg3
      * @return
      */
-    public Pictures recupPict(Attributes arg3){
+    public Pictures recupPict(Attributes arg3, String path){
         x = Integer.parseInt(arg3.getValue("x"));
         y=Integer.parseInt(arg3.getValue("y"));
-        Pictures pict = new Pictures(new Point(x,y), "src/assets/pictures/toulon.png");
+        Pictures pict = new Pictures(new Point(x,y), path);
         return pict;
     }
 

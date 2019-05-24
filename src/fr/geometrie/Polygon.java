@@ -31,6 +31,7 @@ public class Polygon extends Figure{
         g.setColor(c);
         g.fillPolygon(Xpol,Ypol,nbPoints);
         g.setColor(stroke);
+        g.setStroke(new BasicStroke(this.strokeWidth));
         g.drawPolygon(Xpol,Ypol,nbPoints);
     }
 

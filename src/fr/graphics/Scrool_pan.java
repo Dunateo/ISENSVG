@@ -4,6 +4,8 @@ import javax.swing.*;
 
 import fr.xmleditor.XmlTextPane;
 
+import java.awt.*;
+
 public class Scrool_pan extends JScrollPane {
     public  JScrollPane mPan;
     //public Text_area mText;

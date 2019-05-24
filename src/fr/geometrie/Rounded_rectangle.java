@@ -23,10 +23,7 @@ public class Rounded_rectangle extends Rectangle {
         g.setColor(stroke);
         g.setStroke(new BasicStroke(this.strokeWidth));
         g.drawRoundRect(origine.getX(),origine.getY(), largeur,longueur,axeRadius.getX(),axeRadius.getY());
-        if (transform ){
-            g.translate(translate.getX(), translate.getY());
-            g.rotate(Math.toRadians(rotate));
-        }
+        trans.drawTransform(g,trans);
     }
 
 }
