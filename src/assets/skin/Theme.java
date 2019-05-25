@@ -1,4 +1,4 @@
-package look_skin;
+package assets.skin;
 
 import javax.swing.*;
 import com.jtattoo.plaf.graphite.GraphiteLookAndFeel;

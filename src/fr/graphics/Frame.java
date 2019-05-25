@@ -9,9 +9,9 @@ import java.awt.event.KeyListener;
 
 import javax.swing.*;
 
+import fr.action_listenner.GestionFichier;
 import fr.parseur.Parseur_launch;
 import fr.action_listenner.Button_act;
-import fr.fichier.*;
 
 public class Frame extends GestionFichier implements ActionListener, KeyListener {
 	public Scrool_pan mEditCode;
@@ -20,7 +20,7 @@ public class Frame extends GestionFichier implements ActionListener, KeyListener
 	public Fenetre principale;
 	public Panel centerPan;
 	private boolean StateAutoRefresh = false, StateFullScreen = false;
-	private String version = "Version: Beta 0.2";
+	private String version = "Version: Beta 0.3";
 	
 	public Frame () {
 		
