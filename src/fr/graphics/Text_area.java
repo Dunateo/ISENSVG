@@ -17,6 +17,7 @@ public class Text_area extends JTextArea {
         //mContent = "";
         mArea = new JTextArea("");
         mArea.setFont(new Font("Serif", Font.ITALIC, 16));
+        mArea.setEditable(false);
     }
     
     

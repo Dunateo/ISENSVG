@@ -13,12 +13,17 @@ import fr.action_listenner.GestionFichier;
 import fr.parseur.Parseur_launch;
 import fr.action_listenner.Button_act;
 
+
+/**
+ *
+ */
 public class Frame extends GestionFichier implements ActionListener, KeyListener {
 	public Scrool_pan mEditCode;
 	public Dessin mDessin;
 	public Parseur_launch mParse;
 	public Fenetre principale;
-	public Panel centerPan;
+	public Panel centerPan, westPan;
+	public JTextField erorPan;
 	private boolean StateAutoRefresh = false, StateFullScreen = false;
 	private String version = "Version: Beta 0.3";
 	
@@ -26,6 +31,7 @@ public class Frame extends GestionFichier implements ActionListener, KeyListener
 		
 		mEditCode = new Scrool_pan();
 		mDessin = new Dessin();
+		erorPan = new JTextField();
 	}
 	
 	
@@ -33,8 +39,8 @@ public class Frame extends GestionFichier implements ActionListener, KeyListener
 			
 			principale = new Fenetre("ValouML", "src/assets/pictures/logo-app.png");
 		
-			// Dclaration des array
-	        String Item[][] = {{"Ouvrir", "Nouveau", "Sauvegarder", "Exporter", "|", "Quitter"}, {"Refresh", "Auto-Refresh", "Full-Screen"}, {"¤Version", "¤Auteur"}};;
+			// Déclaration des array
+	        String Item[][] = {{"Ouvrir", "Nouveau", "Sauvegarder", "Exporter", "|", "Quitter"}, {"Refresh", "¤Auto-Refresh","|", "Full-Screen"}, {"¤Version", "¤Auteur"}};;
 	        String nomMenu[] = {"File","Edition","About"};
 	        
 	        Menu_bar Bar = new Menu_bar(nomMenu, Item, "moi");
@@ -43,15 +49,18 @@ public class Frame extends GestionFichier implements ActionListener, KeyListener
 			Button_act B3 = new Button_act(Bar.getMListI(2).getJMIlist(),this);
 			mEditCode.xmlTextPane.addKeyListener(this);
 			centerPan = new Panel(1,1);
+			westPan= new Panel(2,1);
 			mEditCode.xmlTextPane.setOpaque(true);
 			mEditCode.xmlTextPane.setBackground(Color.decode("#263238"));
 			mEditCode.xmlTextPane.setCaretColor(Color.white);
-
+			westPan.mPan.add(mEditCode.mPan,"North");
 			// Ajout des composants
 			centerPan.mPan.add(mEditCode.mPan, "West");
 			centerPan.mPan.add(mDessin, "East");
+			erorPan.setEditable(false);
 
 			principale.contentPane.add(centerPan.mPan, "Center");
+			principale.contentPane.add(erorPan,"South");
 
 
 			principale.setJMenuBar(Bar.mBar);
@@ -75,8 +84,9 @@ public class Frame extends GestionFichier implements ActionListener, KeyListener
 			exportDessin(mDessin);
 		} else if(cmd.equals("Refresh")) {
 
-			mParse = new Parseur_launch(mEditCode.xmlTextPane.getText(),false);
+			mParse = new Parseur_launch(mEditCode.xmlTextPane.getText());
 			mDessin.refreshParseur(mParse.par.getList());
+			erorPan.setText(mParse.getParseurEror());
 
 			
 		}else if (cmd.equals("Auto-Refresh")){
@@ -127,8 +137,9 @@ public class Frame extends GestionFichier implements ActionListener, KeyListener
 	@Override
 	public void keyReleased(KeyEvent e) {
 		if (StateAutoRefresh ){
-			mParse = new Parseur_launch(mEditCode.xmlTextPane.getText(),false);
+			mParse = new Parseur_launch(mEditCode.xmlTextPane.getText());
 			mDessin.refreshParseur(mParse.par.getList());
+			erorPan.setText(mParse.getParseurEror());
 		}
 
 	}

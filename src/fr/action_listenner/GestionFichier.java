@@ -25,7 +25,7 @@ import fr.graphics.Text_area;
 import fr.parseur.Parseur_launch;
 import fr.xmleditor.XmlTextPane;
 
-public class GestionFichier /*extends Frame*/ implements ActionListener{
+public class GestionFichier implements ActionListener{
 
 		// Boite de confirmation
 		public int confirmBox () {
@@ -104,7 +104,7 @@ public class GestionFichier /*extends Frame*/ implements ActionListener{
 							xmlTextPane.setText(codeText);
 							mFenetre.setTitle("ValouML < " + openFichier.getName() + " >");
 							
-							mParse = new Parseur_launch(openFichier.getAbsolutePath(),true);
+							mParse = new Parseur_launch(openFichier.getAbsolutePath());
 							mDessin.refreshParseur(mParse.par.getList());
 						}
 					} else {}
@@ -117,7 +117,7 @@ public class GestionFichier /*extends Frame*/ implements ActionListener{
 						xmlTextPane.setText(codeText);
 						mFenetre.setTitle("ValouML < " + openFichier.getName() + " >");
 						
-						mParse = new Parseur_launch(openFichier.getAbsolutePath(),true);
+						mParse = new Parseur_launch(openFichier.getAbsolutePath());
 						mDessin.refreshParseur(mParse.par.getList());
 					}
 				}
@@ -220,7 +220,7 @@ public class GestionFichier /*extends Frame*/ implements ActionListener{
 		// Exporter le dessin
 		public void exportDessin(Dessin mDessin) {
 			try {
-				if(mDessin.getList().isEmpty() == false) {
+				if(mDessin.getList().isEmpty() ) {
 					JFileChooser choix = choixSaveFichier();
 					
 					if(choix != null) {
@@ -237,7 +237,6 @@ public class GestionFichier /*extends Frame*/ implements ActionListener{
 				}
 				
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		}
@@ -245,7 +244,6 @@ public class GestionFichier /*extends Frame*/ implements ActionListener{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
 			
 		}
 		

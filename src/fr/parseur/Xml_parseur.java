@@ -13,16 +13,22 @@ import org.xml.sax.ContentHandler;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 
-
+/**
+ * Class relative to all the parseur functions
+ */
 public class Xml_parseur implements ContentHandler{
 
     //array list fot figure
-    private ArrayList<Figure> list = new ArrayList<Figure>();
+    private ArrayList<Figure> list ;
     private String ContentT;
     private boolean stateT = false, stateG = false ;
     private int x,y, rotate, ep;
     private Color c,contour;
     Point translate;
+
+    public Xml_parseur(){
+        list= new ArrayList<Figure>();
+    }
 
     /**s
      * Element start
