@@ -27,19 +27,14 @@ import fr.xmleditor.XmlTextPane;
 
 public class GestionFichier implements ActionListener{
 
-		// Boite de confirmation
-		public int confirmBox () {
-			
-			int option = JOptionPane.showConfirmDialog(null,"Voulez-vous enregistrer le fichier ?","Selectionner une option ...",JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.QUESTION_MESSAGE);
 
-			// 0=yes, 1=no, 2=cancel
-			
-			return option;
-		}
-		
-		
-		// Choix d'un fichier  ouvrir
-		public File choixOpenFichier () throws IOException {
+
+	/**
+	 * Open an .xml
+	 * @return
+	 * @throws IOException
+	 */
+	public File choixOpenFichier () throws IOException {
 			JFileChooser dialogue = new JFileChooser(new File("."));
 			File fichier = null;
 			
@@ -49,20 +44,25 @@ public class GestionFichier implements ActionListener{
 			
 			return fichier;
 		}
-		
-		
-		// R�cup�ration du texte d'un fichier
-		public String textFichier (File fichier) throws IOException {
+
+
+	/**
+	 * Take the file value for a string
+	 * @param fichier
+	 * @return
+	 * @throws IOException
+	 */
+	public String textFichier (File fichier) throws IOException {
 			String texte = "";
-			
 			BufferedReader lecteurAvecBuffer = null;
 			String ligne;
-			
+
+
 			try {
 				lecteurAvecBuffer = new BufferedReader(new FileReader(fichier));
 			}
 			catch(FileNotFoundException exc) {
-				System.out.println("Erreur d'ouverture");
+				System.out.println("Error");
 			}
 			
 			while ((ligne = lecteurAvecBuffer.readLine()) != null) {
@@ -74,17 +74,21 @@ public class GestionFichier implements ActionListener{
 			
 			return texte;
 		}
-		
-		
-		// Ouvre un fichier XML et l'affiche dans la zone d'�dition de code
+
+
+	/**
+	 * Open a file and display in Xmleditor component
+	 * @param xmlTextPane
+	 * @param mDessin
+	 * @param mParse
+	 * @param mFenetre
+	 */
 		public void openXMLFile (XmlTextPane xmlTextPane, Dessin mDessin, Parseur_launch mParse, Fenetre mFenetre) {
 			try {
 				if(!xmlTextPane.getText().equals("")) {
-					int conf = -1;
+					int valueC  = dialogBox();
 					
-					conf = confirmBox();
-					
-					if(conf == 0) {
+					if(valueC == 0) {
 						registerXMLFile(xmlTextPane,mFenetre);
 						
 						File openFichier = choixOpenFichier();
@@ -95,68 +99,82 @@ public class GestionFichier implements ActionListener{
 							xmlTextPane.setText(codeText);
 							mFenetre.setTitle("ValouML < " + openFichier.getName() + " >");
 						}
-					} else if(conf == 1) {
-						File openFichier = choixOpenFichier();
-						
-						if(openFichier != null) {
-							String codeText = textFichier(openFichier);
-							
-							xmlTextPane.setText(codeText);
-							mFenetre.setTitle("ValouML < " + openFichier.getName() + " >");
-							
-							mParse = new Parseur_launch(openFichier.getAbsolutePath());
-							mDessin.refreshParseur(mParse.par.getList());
-						}
-					} else {}
-				} else {
-					File openFichier = choixOpenFichier();
-					
-					if(openFichier != null) {
-						String codeText = textFichier(openFichier);
-						
-						xmlTextPane.setText(codeText);
-						mFenetre.setTitle("ValouML < " + openFichier.getName() + " >");
-						
-						mParse = new Parseur_launch(openFichier.getAbsolutePath());
-						mDessin.refreshParseur(mParse.par.getList());
+					} else if(valueC == 1) {
+						fileOperations(xmlTextPane,mDessin,mParse,mFenetre);
+
 					}
+				} else {
+					fileOperations(xmlTextPane,mDessin,mParse,mFenetre);
 				}
 				
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
 		}
-		
-		
-		// Choix d'un fichier sauvegarder
-		public JFileChooser choixSaveFichier () throws IOException {
-			JFileChooser dialogue = new JFileChooser();
-			int retour = dialogue.showSaveDialog(null);
-			
-			if (retour == JFileChooser.APPROVE_OPTION) {
-				// nom du fichier  choisi
-				dialogue.getSelectedFile().getName();
-				// chemin absolu du fichier choisi
-				dialogue.getSelectedFile().getAbsolutePath();
-			} else {
-				dialogue = null;
+
+	/**
+	 * avoid same code
+	 * @param xmlTextPane
+	 * @param mDessin
+	 * @param mParse
+	 * @param mFenetre
+	 */
+		public void  fileOperations(XmlTextPane xmlTextPane, Dessin mDessin, Parseur_launch mParse, Fenetre mFenetre){
+
+			File openFichier;
+			try {
+				openFichier = choixOpenFichier();
+				String codeText = textFichier(openFichier);
+
+				xmlTextPane.setText(codeText);
+				mFenetre.setTitle("ValouML < " + openFichier.getName() + " >");
+
+				mParse = new Parseur_launch(openFichier.getAbsolutePath());
+				mDessin.refreshParseur(mParse.par.getList());
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-			
-			return dialogue;
+
+
 		}
 
-		
-		// Enregistrer fichier XML
+
+	/**
+	 * save a file
+	 * @return
+	 * @throws IOException
+	 */
+	public JFileChooser choixSaveFichier () throws IOException {
+			JFileChooser dial = new JFileChooser();
+			int retour = dial.showSaveDialog(null);
+			
+			if (retour == JFileChooser.APPROVE_OPTION) {
+				//name and absolute path
+				dial.getSelectedFile().getName();
+				dial.getSelectedFile().getAbsolutePath();
+			} else {
+				dial = null;
+			}
+			
+			return dial;
+		}
+
+
+	/**
+	 * save the xml file
+	 * @param xmlTextPane
+	 * @param mFenetre
+	 */
 		public void registerXMLFile (XmlTextPane xmlTextPane, Fenetre mFenetre) {
 			try {
 				if(!xmlTextPane.getText().equals("")) {
 					JFileChooser saveFichier = choixSaveFichier();
 					
 					if(saveFichier != null) {
-						String texte = xmlTextPane.getText();
+						String text = xmlTextPane.getText();
 						
 						try (FileOutputStream fos = new FileOutputStream(saveFichier.getSelectedFile().getAbsolutePath() + ".isvg")) {
-							fos.write(texte.getBytes());
+							fos.write(text.getBytes());
 						} catch(IOException ex) {
 							ex.printStackTrace();
 						}
@@ -169,69 +187,81 @@ public class GestionFichier implements ActionListener{
 					}
 				}
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		}
-		
-		
-		// Crer nouveau code isvg
-		public void nouveauFile (XmlTextPane xmlTextPane, Dessin mDessin, Fenetre mFenetre) {
+
+	/**
+	 * return 0 yes , 1 no , 2 cancel Confirmation box
+	 * @return
+	 */
+	public int dialogBox () {
+
+		int valueConf = JOptionPane.showConfirmDialog(null,"Enregistrer le fichier ?","Options",JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.QUESTION_MESSAGE);
+		return valueConf;
+	}
+
+	/**
+	 * create a new file
+	 * @param xmlTextPane
+	 * @param mDessin
+	 * @param mFenetre
+	 */
+		public void newFile (XmlTextPane xmlTextPane, Dessin mDessin, Fenetre mFenetre) {
 			if(!xmlTextPane.getText().equals("")) {
+				int valueC;
+				valueC = dialogBox();
 				
-				int conf = -1;
-				
-				conf = confirmBox();
-				
-				if(conf == 0) {
+				if(valueC == 0) {
 					registerXMLFile(xmlTextPane,null);
 					xmlTextPane.setText("");
 					mDessin.nouveau();
 					mFenetre.setTitle("ValouML < No Name >");
-				} else if(conf == 1) {
+				} else if(valueC == 1) {
 					xmlTextPane.setText("");
 					mDessin.nouveau();
 					mFenetre.setTitle("ValouML < No Name >");
-				} else {}
+				}
 			}
 		}
-		
-		
-		// Quitter le logiciel
-		public void quitFile (XmlTextPane xmlTextPane) {
+
+
+	/**
+	 * Shut down the file properly
+	 * @param xmlTextPane
+	 */
+	public void quitFile (XmlTextPane xmlTextPane) {
 			if(!xmlTextPane.getText().equals("")) {
-				
-				int conf = -1;
-				
-				conf = confirmBox();
-				
-				if(conf == 0) {
+				int valueC;
+				valueC = dialogBox();
+				if(valueC == 0) {
 					registerXMLFile(xmlTextPane,null);
 					System.exit(0);
-				} else if(conf == 1) {
+				} else if(valueC == 1) {
 					System.exit(0);
-				} else {}
+				}
 			} else {
 				System.exit(0);
 			}
 		}
-		
-		
-		// Exporter le dessin
-		public void exportDessin(Dessin mDessin) {
+
+
+	/**
+	 * Export the dessin pane
+	 * @param mDessin
+	 */
+	public void exportDessin(Dessin mDessin) {
 			try {
 				if(mDessin.getList().isEmpty() ) {
-					JFileChooser choix = choixSaveFichier();
-					
-					if(choix != null) {
+					JFileChooser choice= choixSaveFichier();
+					if(choice != null) {
 						BufferedImage bi = new BufferedImage(mDessin.getSize().width, mDessin.getSize().height, BufferedImage.TYPE_INT_ARGB);
 						Graphics g = bi.createGraphics();
-						
 						mDessin.paint(g);
 						g.dispose();
 						
 						try{
-						    ImageIO.write(bi,"png",new File(choix.getSelectedFile().getAbsolutePath()+".png"));
+						    ImageIO.write(bi,"png",new File(choice.getSelectedFile().getAbsolutePath()+".png"));
 						} catch (Exception e) {}
 					}
 				}

@@ -26,6 +26,7 @@ public class Frame extends GestionFichier implements ActionListener, KeyListener
 	public JTextField erorPan;
 	private boolean StateAutoRefresh = false, StateFullScreen = false;
 	private String version = "Version: Beta 0.3";
+
 	
 	public Frame () {
 		
@@ -33,8 +34,11 @@ public class Frame extends GestionFichier implements ActionListener, KeyListener
 		mDessin = new Dessin();
 		erorPan = new JTextField();
 	}
-	
-	
+
+
+	/**
+	 * Create all the dependencies for my programme
+	 */
 	public void runFrame ()  {
 			
 			principale = new Fenetre("ValouML", "src/assets/pictures/logo-app.png");
@@ -44,21 +48,29 @@ public class Frame extends GestionFichier implements ActionListener, KeyListener
 	        String nomMenu[] = {"File","Edition","About"};
 	        
 	        Menu_bar Bar = new Menu_bar(nomMenu, Item, "moi");
+
+	        //action listener
 	        Button_act B1 = new Button_act(Bar.getMListI(0).getJMIlist(),this);
 	        Button_act B2 = new Button_act(Bar.getMListI(1).getJMIlist(),this);
 			Button_act B3 = new Button_act(Bar.getMListI(2).getJMIlist(),this);
+
+			//panel create
 			mEditCode.xmlTextPane.addKeyListener(this);
 			centerPan = new Panel(1,1);
 			westPan= new Panel(2,1);
+
+			//editor background
 			mEditCode.xmlTextPane.setOpaque(true);
 			mEditCode.xmlTextPane.setBackground(Color.decode("#263238"));
 			mEditCode.xmlTextPane.setCaretColor(Color.white);
-			westPan.mPan.add(mEditCode.mPan,"North");
+
 			// Ajout des composants
+			westPan.mPan.add(mEditCode.mPan,"North");
 			centerPan.mPan.add(mEditCode.mPan, "West");
 			centerPan.mPan.add(mDessin, "East");
 			erorPan.setEditable(false);
 
+			//ajout dans la Frame principal
 			principale.contentPane.add(centerPan.mPan, "Center");
 			principale.contentPane.add(erorPan,"South");
 
@@ -77,7 +89,7 @@ public class Frame extends GestionFichier implements ActionListener, KeyListener
 		} else if(cmd.equals("Ouvrir")) {
 			openXMLFile(mEditCode.xmlTextPane,mDessin,mParse,principale);
 		} else if(cmd.equals("Nouveau")) {
-			nouveauFile(mEditCode.xmlTextPane,mDessin,principale);
+			newFile(mEditCode.xmlTextPane,mDessin,principale);
 		} else if(cmd.equals("Sauvegarder")) {
 			registerXMLFile(mEditCode.xmlTextPane,principale);
 		} else if(cmd.equals("Exporter")) {
